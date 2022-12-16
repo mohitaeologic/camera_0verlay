@@ -17,13 +17,14 @@ class _VideoCaptureFormState extends State<VideoCaptureForm> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<VideoCaptureBloc>(context)..add(ControllerInitializeEvent());
+    BlocProvider.of<VideoCaptureBloc>(context)
+      ..add(ControllerInitializeEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body : BlocConsumer<VideoCaptureBloc, VideoCaptureState>(
+      body: BlocConsumer<VideoCaptureBloc, VideoCaptureState>(
         listener: (context, state) {
           if (state is VideoRecordFinishedState) {
             final route = MaterialPageRoute(
@@ -40,129 +41,155 @@ class _VideoCaptureFormState extends State<VideoCaptureForm> {
           }
         },
         builder: (context, state) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          return Stack(
+
             children: [
-              Expanded(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child:
-                    state is ControllerInitializedState ?
-                    CameraPreview(state.cameraController) :
-                    Container()),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(40, 0, 0, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.flash_off,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    print('flash on called');
-                                    if (state is CameraFlashState)
-                                      BlocProvider.of<VideoCaptureBloc>(context)..add(FlashToggleEvent(isFlashOn: state.isFlashOn));
-                                    // _cameraController
-                                    //     .setFlashMode(
-                                    //         FlashMode
-                                    //             .always);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  padding: EdgeInsets.all(0),
-                                  icon: Icon(
-                                    Icons.fiber_manual_record_outlined,
-                                    size: 40,
-                                  ),
-                                  onPressed: () {
-                                    BlocProvider.of<VideoCaptureBloc>(context)..add(VideoRecordStartedEvent());
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 40, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.flip_camera_ios,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    BlocProvider.of<VideoCaptureBloc>(context)..add(SwitchCameraEvent());
-                                    // _toggleCameraLens(
-                                    //     cameras);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child:
+                        state is ControllerInitializedState ?
+                        // CameraPreview(state.cameraController) :
+                        CameraPreview(state.cameraController) : Container()),
+                      ],
                     ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    40, 0, 0, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.flash_off,
+                                        size: 25,
+                                      ),
+                                      onPressed: () {
+                                        print('flash on called');
+                                        if (state is CameraFlashState)
+                                          BlocProvider.of<VideoCaptureBloc>(
+                                              context)
+                                            ..add(FlashToggleEvent(
+                                                isFlashOn: state.isFlashOn));
+                                        // _cameraController
+                                        //     .setFlashMode(
+                                        //         FlashMode
+                                        //             .always);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.all(0),
+                                      icon: Icon(
+                                        Icons.fiber_manual_record_outlined,
+                                        size: 40,
+                                      ),
+                                      onPressed: () {
+                                        BlocProvider.of<VideoCaptureBloc>(
+                                            context)
+                                          ..add(VideoRecordStartedEvent());
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 40, 0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.flip_camera_ios,
+                                        size: 25,
+                                      ),
+                                      onPressed: () {
+                                        BlocProvider.of<VideoCaptureBloc>(
+                                            context)
+                                          ..add(SwitchCameraEvent());
+                                        // _toggleCameraLens(
+                                        //     cameras);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
+              _getOverlay(),
+
             ],
           );
         },
       ),
     );
   }
-
-// get current lens direction (front / rear)
-// void _toggleCameraLens(_availableCameras) {
-//   final lensDirection = _cameraController.description.lensDirection;
-//   CameraDescription newDescription;
-//   if (lensDirection == CameraLensDirection.front) {
-//     newDescription = _availableCameras.firstWhere((description) =>
-//     description.lensDirection == CameraLensDirection.back);
-//   } else {
-//     newDescription = _availableCameras.firstWhere((description) =>
-//     description.lensDirection == CameraLensDirection.front);
-//   }
-//
-//   if (newDescription != null) {
-//     _initCamera(newDescription);
-//   } else {
-//     print('Asked camera not available');
-//   }
-// }
+}
+Widget _getOverlay() {
+  return ColorFiltered(
+    colorFilter: ColorFilter.mode(
+        Colors.black54,
+        BlendMode.srcOut
+    ),
+    child: Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              margin: const EdgeInsets.only(right: 4,top: 5),
+              height: 300,
+              width: 300,
+              decoration: BoxDecoration(
+                color: Colors.black, // Color does not matter but should not be transparent
+                borderRadius: BorderRadius.circular(300),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
