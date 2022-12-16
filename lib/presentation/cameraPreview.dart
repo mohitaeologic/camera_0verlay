@@ -180,7 +180,7 @@ Widget _getOverlay() {
     child: Stack(
       alignment: Alignment.center,
       children: [
-        Positioned(child: Icon(Icons.person_outline,size: 150,color: Colors.grey.shade800,)),
+        Positioned(child: Icon(Icons.person_outline,size: 150,color: Colors.black54,)),
         ColorFiltered(
           colorFilter: ColorFilter.mode(
               Colors.black54,
