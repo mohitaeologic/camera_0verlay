@@ -13,6 +13,11 @@ class VideoRecordStartedEvent extends VideoCaptureEvent {
   List<Object?> get props => [];
 }
 
+class Capture3DEvent extends VideoCaptureEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class VideoRecordCompetedEvent extends VideoCaptureEvent {
   @override
   List<Object?> get props => [];

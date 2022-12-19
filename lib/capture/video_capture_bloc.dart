@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
@@ -50,10 +52,30 @@ class VideoCaptureBloc extends Bloc<VideoCaptureEvent, VideoCaptureState> {
         // emit(CameraFlashState(isFlashOn: cameraFlash));
       }
     });
+
+
+    on<Capture3DEvent>((event, emit) async {
+      // emit(VideoRecordStartedState());
+      emit(ControllerInitializedState(cameraController: _cameraController));
+      // if (_isRecording) {
+      //   final file = await _cameraController.stopVideoRecording();
+      //   _isRecording = false;
+      //   emit(VideoRecordFinishedState(file: file));
+      // } else {
+      final file = await _cameraController.takePicture();
+      _images.add(file);
+      emit(VideoRecordFinishedState(file: file));
+      // await _cameraController.startVideoRecording();~
+      // _isRecording = true;
+      // }
+    });
   }
   bool cameraFlash = false;
   late final cameras;
   late CameraController _cameraController;
+  List<XFile> _images = [];
+  List<XFile> get images => _images;
+
   bool _isRecording = false;
 
   _initCamera(CameraDescription? description) async {
