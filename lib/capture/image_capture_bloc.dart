@@ -6,11 +6,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-part 'video_capture_event.dart';
-part 'video_capture_state.dart';
+part 'image_capture_event.dart';
+part 'image_capture_state.dart';
 
-class VideoCaptureBloc extends Bloc<VideoCaptureEvent, VideoCaptureState> {
-  VideoCaptureBloc() : super(ControllerInitializingState()) {
+class ImageCaptureBloc extends Bloc<ImageCaptureEvent, ImageCaptureState> {
+  bool cameraFlash = false;
+  late final cameras;
+  late CameraController _cameraController;
+  List<XFile> _images = [];
+  List<XFile> get images => _images;
+
+  ImageCaptureBloc() : super(ControllerInitializingState()) {
     on<ControllerInitializeEvent>((event, emit) async {
       emit(ControllerInitializingState());
       cameras = await availableCameras();
@@ -27,18 +33,9 @@ class VideoCaptureBloc extends Bloc<VideoCaptureEvent, VideoCaptureState> {
     });
 
     on<VideoRecordStartedEvent>((event, emit) async {
-      // emit(VideoRecordStartedState());
       emit(ControllerInitializedState(cameraController: _cameraController));
-      // if (_isRecording) {
-      //   final file = await _cameraController.stopVideoRecording();
-      //   _isRecording = false;
-      //   emit(VideoRecordFinishedState(file: file));
-      // } else {
       final file = await _cameraController.takePicture();
-      emit(VideoRecordFinishedState(file: file));
-        // await _cameraController.startVideoRecording();~
-        // _isRecording = true;
-      // }
+      emit(ImageCaptureFinishedState(file: file));
     });
 
     on<FlashToggleEvent>((event, emit) async {
@@ -53,34 +50,19 @@ class VideoCaptureBloc extends Bloc<VideoCaptureEvent, VideoCaptureState> {
       }
     });
 
-
     on<Capture3DEvent>((event, emit) async {
-      // emit(VideoRecordStartedState());
       emit(ControllerInitializedState(cameraController: _cameraController));
-      // if (_isRecording) {
-      //   final file = await _cameraController.stopVideoRecording();
-      //   _isRecording = false;
-      //   emit(VideoRecordFinishedState(file: file));
-      // } else {
+
       final file = await _cameraController.takePicture();
       _images.add(file);
-      emit(VideoRecordFinishedState(file: file));
-      // await _cameraController.startVideoRecording();~
-      // _isRecording = true;
-      // }
+      emit(ImageCaptureFinishedState(file: file));
     });
   }
-  bool cameraFlash = false;
-  late final cameras;
-  late CameraController _cameraController;
-  List<XFile> _images = [];
-  List<XFile> get images => _images;
-
-  bool _isRecording = false;
 
   _initCamera(CameraDescription? description) async {
     if (description == null) {
-      final front = await cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
+      final front = await cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front);
       _cameraController = await CameraController(front, ResolutionPreset.max);
       await _cameraController.initialize();
       return _cameraController;
@@ -97,10 +79,12 @@ class VideoCaptureBloc extends Bloc<VideoCaptureEvent, VideoCaptureState> {
     final lensDirection = _cameraController.description.lensDirection;
     CameraDescription newDescription;
     if (lensDirection == CameraLensDirection.front) {
-      newDescription = _availableCameras.firstWhere((description) => description.lensDirection == CameraLensDirection.back);
+      newDescription = _availableCameras.firstWhere((description) =>
+          description.lensDirection == CameraLensDirection.back);
       return newDescription;
     } else {
-      newDescription = _availableCameras.firstWhere((description) => description.lensDirection == CameraLensDirection.front);
+      newDescription = _availableCameras.firstWhere((description) =>
+          description.lensDirection == CameraLensDirection.front);
       return newDescription;
     }
   }

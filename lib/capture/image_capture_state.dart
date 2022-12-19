@@ -1,27 +1,27 @@
-part of 'video_capture_bloc.dart';
+part of 'image_capture_bloc.dart';
 
 @immutable
-abstract class VideoCaptureState extends Equatable {}
+abstract class ImageCaptureState extends Equatable {}
 
-class ControllerInitializingState extends VideoCaptureState {
+class ControllerInitializingState extends ImageCaptureState {
   @override
   List<Object?> get props => [];
 }
 
-class VideoRecordStartedState extends VideoCaptureState {
+class VideoRecordStartedState extends ImageCaptureState {
   @override
   List<Object?> get props => [];
 }
 
-class VideoRecordFinishedState extends VideoCaptureState {
+class ImageCaptureFinishedState extends ImageCaptureState {
   final file;
-  VideoRecordFinishedState({required this.file});
+  ImageCaptureFinishedState({required this.file});
 
   @override
   List<Object?> get props => [];
 }
 
-class ControllerInitializedState extends VideoCaptureState {
+class ControllerInitializedState extends ImageCaptureState {
   final CameraController cameraController;
   ControllerInitializedState({required this.cameraController});
 
@@ -29,7 +29,7 @@ class ControllerInitializedState extends VideoCaptureState {
   List<Object?> get props => [cameraController];
 }
 
-class CameraFlashState extends VideoCaptureState {
+class CameraFlashState extends ImageCaptureState {
   final bool isFlashOn = true;
   CameraFlashState({required isFlashOn});
 

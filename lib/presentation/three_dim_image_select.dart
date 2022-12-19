@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:camera_0verlay/capture/video_capture_bloc.dart';
+import 'package:camera_0verlay/capture/image_capture_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,10 +29,10 @@ class _ThreeDimImageSelectState extends State<ThreeDimImageSelect> {
         ),
       ),
       body: SafeArea(
-        child: BlocConsumer<VideoCaptureBloc, VideoCaptureState>(
+        child: BlocConsumer<ImageCaptureBloc, ImageCaptureState>(
             listener: (context, state)async {
 
-              if (state is VideoRecordFinishedState){
+              if (state is ImageCaptureFinishedState){
 
               }
               if (state is ControllerInitializedState) {
@@ -46,7 +46,7 @@ class _ThreeDimImageSelectState extends State<ThreeDimImageSelect> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5,crossAxisSpacing: 5,mainAxisSpacing: 5,childAspectRatio: 1),
                   itemCount: 50,
                   itemBuilder: (context,index){
-                    return context.read<VideoCaptureBloc>().images.asMap().containsKey(index) ? Image.file(File(context.read<VideoCaptureBloc>().images[index].path)):Container(
+                    return context.read<ImageCaptureBloc>().images.asMap().containsKey(index) ? Image.file(File(context.read<ImageCaptureBloc>().images[index].path)):Container(
                       color: Colors.grey,
                       child: IconButton(
                         icon: Icon(Icons.add),

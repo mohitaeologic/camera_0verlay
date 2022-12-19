@@ -5,7 +5,7 @@ import 'package:camera_0verlay/presentation/image_prview_filter.dart';
 import 'package:camera_0verlay/presentation/three_dim_image_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../capture/video_capture_bloc.dart';
+import '../capture/image_capture_bloc.dart';
 import 'image_preview.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:path/path.dart' as path;
@@ -23,7 +23,7 @@ class _CameraPreview3DState extends State<CameraPreview3D> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<VideoCaptureBloc>(context)
+    BlocProvider.of<ImageCaptureBloc>(context)
         .add(ControllerInitializeEvent());
   }
 
@@ -32,9 +32,9 @@ class _CameraPreview3DState extends State<CameraPreview3D> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<VideoCaptureBloc, VideoCaptureState>(
+      body: BlocConsumer<ImageCaptureBloc, ImageCaptureState>(
         listener: (context, state)async {
-          if (state is VideoRecordFinishedState){
+          if (state is ImageCaptureFinishedState){
 
           }
           if (state is ControllerInitializedState) {
@@ -90,9 +90,9 @@ class _CameraPreview3DState extends State<CameraPreview3D> {
                                         size: 25,
                                       ),
                                       onPressed: () {
-                                        print('flash on called');
+
                                         if (state is CameraFlashState) {
-                                          BlocProvider.of<VideoCaptureBloc>(
+                                          BlocProvider.of<ImageCaptureBloc>(
                                               context)
                                               .add(FlashToggleEvent(
                                               isFlashOn: state.isFlashOn));
@@ -118,7 +118,7 @@ class _CameraPreview3DState extends State<CameraPreview3D> {
                                         size: 40,
                                       ),
                                       onPressed: () {
-                                        BlocProvider.of<VideoCaptureBloc>(
+                                        BlocProvider.of<ImageCaptureBloc>(
                                             context)
                                             .add(VideoRecordStartedEvent());
                                       },
@@ -139,7 +139,7 @@ class _CameraPreview3DState extends State<CameraPreview3D> {
                                         size: 25,
                                       ),
                                       onPressed: () {
-                                        BlocProvider.of<VideoCaptureBloc>(
+                                        BlocProvider.of<ImageCaptureBloc>(
                                             context)
                                             .add(SwitchCameraEvent());
                                         // _toggleCameraLens(

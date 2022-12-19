@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:camera_0verlay/presentation/cameraPreview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'capture/video_capture_bloc.dart';
+import 'capture/image_capture_bloc.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -65,7 +65,7 @@ class _CameraAppState extends State<CameraApp> {
       home:
       MultiBlocProvider(
           providers: [
-      BlocProvider<VideoCaptureBloc>(create: (_) => VideoCaptureBloc()),
+      BlocProvider<ImageCaptureBloc>(create: (_) => ImageCaptureBloc()),
       ], child: VideoCaptureForm(),)
     );
   }
