@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:photofilters/filters/preset_filters.dart';
+import 'package:photofilters/widgets/photo_filter.dart';
+import 'package:image/image.dart' as imageLib;
 
 class ImagePreviewPage extends StatefulWidget {
   final String filePath;
-
-  const ImagePreviewPage({Key? key, required this.filePath}) : super(key: key);
+  final imageLib.Image image;
+  const ImagePreviewPage({Key? key, required this.filePath,required this.image}) : super(key: key);
 
   @override
   _ImagePreviewPageState createState() => _ImagePreviewPageState();
@@ -35,20 +38,15 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Image preview"),
-          elevation: 0,
-          backgroundColor: Colors.black26,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () {
-                print('do something with the file');
-              },
-            )
-          ],
+        body: PhotoFilterSelector(
+          title: const Text("Image preview"),
+          image: widget.image,
+          filters: presetFiltersList,
+          filename: widget.filePath,
+          loader: const Center(child: CircularProgressIndicator()),
+          fit: BoxFit.contain,
         ),
-        extendBodyBehindAppBar: true,
-        body: Image.file(File(widget.filePath)));
+        // body: Image.file(File(widget.filePath))
+    );
   }
 }
